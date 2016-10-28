@@ -1,0 +1,35 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Edit product</title>
+    <link rel="stylesheet" href="{% static 'appointment_app/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="wrapper">
+      <form action='/task/{{ Task.id }}/update' method='post'>
+      {% csrf_token %}
+      <p>
+        Task: <input type="text" name="task" value="{{Task.task}}">
+      </p>
+      <p>
+        Date: <input type="text" name="date" value="{{Task.date}}">
+      </p>
+      <p>
+        Time: <input type="time" name="time" value="{{Task.time}}">
+      </p>
+      <p>
+        Status: <select type="text" name="status" value="{{Task.status}}">
+          <option value="Pending">Pending</option>
+          <option value="Missed">Missed</option>
+          <option value="Done">Done</option>
+      </p>
+      <input type="submit" value="Update">
+    </form>
+      <a href="/task/{{ Task.id }}/">Show</a>
+      <a href="/task">Back</a>
+    </div>
+
+  </body>
+</html>

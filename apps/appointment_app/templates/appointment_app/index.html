@@ -1,0 +1,92 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static 'appointment_app/css/styles.css' %}">
+  </head>
+  <body>
+    <h1>Here are your appointments for today {{date_now}}</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Tasks</th>
+          <th>Time <a href="/task/index"></a></th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        {% if task.date == date_now and task.status != 'Done' %}
+        <tr>
+          <td>{{task.task}}</td>
+          <td>{{task.time}}</td>
+          <td>{{task.status}}</td>
+          <td>
+            <a href="/task/{{task.id}}/edit/">Edit</a>
+            <form action="/task/{{task.id}}/destroy/" method='post' class='delete'>
+              {% csrf_token %}
+              <input type="submit" value="Delete!">
+            </form>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% for task in tasks %}
+        {% if task.date == date_now and task.status == 'Done' %}
+        <tr>
+          <td>{{task.task}}</td>
+          <td>{{task.time}}</td>
+          <td>{{task.status}}</td>
+          <td>
+
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <h1>Your Other Appointments</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Tasks</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td>{{task.task}}</td>
+          <td>{{task.date}}</td>
+          <td>{{task.time}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h2>Add a new task</h2>
+    <form action="{% url 'task:user' %}" method='post'>
+      {% csrf_token %}
+      <p>
+        Date: <input type="text" name="date" placeholder="yyyy-mm-dd">
+      </p>
+      <p>Time:
+        <input type="time" name="time">
+      </p>
+      <p>
+        Task: <input type="text" name="task" >
+      </p>
+      <input type="submit" value="Add">
+    </form>
+    {% if messages %}
+    <ul class="alert-danger">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+  </body>
+</html>

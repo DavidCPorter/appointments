@@ -1,0 +1,43 @@
+<html>
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- linking a css style sheet -->
+    {% load staticfiles %}
+  <link <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'login_registration/css/styles.css' %}">
+  <meta charset="utf-8">
+  <title>Login Registration</title>
+  <link rel="stylesheet" href="{% static 'login_registration/css/styles.css' %}">
+</head>
+<body>
+  <div class="wrapper">
+    {% if messages %}
+    <ul class="alert-danger">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h2>Register</h2>
+    <form action="{% url 'login_registration:register' %}" method='post'>
+      {% csrf_token %}
+      First Name <input type="text" name="first_name">
+      Last Name <input type="text" name="last_name">
+      Email <input type="email" name="email">
+      Password <input type="password" name="password">
+      Confirm Password <input type="password" name="confirm_pw">
+      Date of Birth <input type="date" name="dob">
+      <input type="submit" value="Register">
+    </form>
+    <h2>Login</h2>
+    <form action="{% url 'login_registration:login' %}" method='post'>
+      {% csrf_token %}
+      Email <input type="email" name="email">
+      Password <input type="password" name="password">
+      <input type="submit" value="Login">
+    </form>
+  </div>
+</body>
+</html>
